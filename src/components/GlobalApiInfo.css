@@ -1,0 +1,31 @@
+/* src/components/GlobalApiInfo.css */
+.api-info-container {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .api-info-tooltip {
+    position: absolute;
+    top: -100px;
+    left: 120%;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    max-width: 400px;
+    word-wrap: break-word;
+    font-size: 14px;
+    white-space: pre-wrap;
+    z-index: 1000;
+  }
+  
+  .api-info-tooltip pre {
+    margin: 0;
+    padding: 0;
+    color: #f1f1f1;
+  }
+  
+  .api-info-tooltip span {
+    color: #80e0ff;
+  }
+  

@@ -1,0 +1,46 @@
+.request-console {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 20%;
+  max-height: 40%;
+  overflow-y: auto;
+  background: #2d2d2d;
+  color: #ffffff;
+  font-size: 12px;
+  border: 1px solid #444;
+  border-radius: 4px;
+  z-index: 1000;
+  padding: 10px;
+}
+
+.request-console h3 {
+  margin: 0;
+  margin-bottom: 5px;
+  font-size: 14px;
+  text-align: center;
+}
+
+.logs {
+  max-height: 100%;
+  overflow-y: auto;
+}
+
+.log-item {
+  margin-bottom: 10px;
+}
+
+.log-item p {
+  margin: 0;
+}
+
+.log-item pre {
+  background: #1e1e1e;
+  padding: 5px;
+  border-radius: 3px;
+  overflow-x: auto;
+}
+
+.log-item details {
+  margin-top: 5px;
+}

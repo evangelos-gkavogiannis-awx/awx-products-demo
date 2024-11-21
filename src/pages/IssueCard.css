@@ -1,0 +1,160 @@
+/* General container for the form */
+.issue-card-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Grid layout for the form */
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two columns */
+    gap: 20px; /* Spacing between fields */
+  }
+  
+  /* Single-field spanning full width */
+  .form-field {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+  }
+  
+  /* Centering the submit button */
+  .submit-button {
+    grid-column: span 2; /* Span across both columns */
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: black;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .submit-button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* JSON Preview section */
+  .json-preview {
+    grid-column: span 2; /* Span across both columns */
+    background-color: #f9f9f9;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+    overflow-x: auto;
+    margin-top: 20px;
+  }
+  
+  /* Overlay for card display */
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+  }
+  
+  /* Styling the credit card */
+  .credit-card {
+    width: 320px;
+    height: 200px;
+    background-color: white; /* Dark background similar to card material */
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+    color: black;
+    font-family: 'Courier New', Courier, monospace; /* Mimic card font */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    position: relative;
+  }
+  
+  /* Top section of the card */
+  .top-section {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+  }
+  
+
+  .card-number {
+    font-size: 20px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    text-align: center;
+    margin-top: 10px;
+  }
+  
+  .expiration-and-name {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    margin-top: 15px;
+    padding: 0 15px;
+  }
+
+  .expiration-date {
+    text-align: left;
+  }
+  
+  .cardholder-name {
+    text-align: right;
+    font-weight: bold;
+  }
+  
+  /* Styling the company name */
+  .company-name {
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  /* Styling the Airwallex logo */
+  .airwallex-logo {
+    width: 130px;
+    height: auto;
+    object-fit: contain;
+    background: none;
+  }
+
+  .dext-logo {
+    width: 60px; /* Adjust size for the Dext logo */
+    height: auto;
+    object-fit: contain;
+  }
+
+  .visa-logo {
+    width: 60px; /* Adjust size for the Visa logo */
+    height: auto;
+    object-fit: contain;
+  }
+  
+  /* Bottom section of the card */
+  .bottom-section {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  /* Styling the cardholder name */
+  .cardholder-name {
+    font-size: 14px;
+  }
+  
+  /* Styling the Visa logo */
+  .visa-logo {
+    font-size: 18px;
+    font-weight: bold;
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+  }

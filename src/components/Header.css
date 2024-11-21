@@ -1,0 +1,127 @@
+/* Header styling */
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: #fff;
+    border-bottom: 1px solid #ddd;
+    padding: 10px 20px; /* Adjusted padding to accommodate logo */
+    display: flex;
+    align-items: center; /* Center items vertically */
+    gap: 15px;
+    z-index: 1000; /* Ensure it stays above other content */
+}
+
+.header-logo {
+    max-width: 50px; /* Adjust the size as needed */
+    height: auto;
+}
+
+.nav-item {
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+    background-color: white;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.nav-item:hover {
+    color: #007bff;
+    cursor: pointer;
+    background-color: #f8f9fa;
+}
+
+.issuing-tab,
+.payouts-tab,
+.beneficiaries-tab,
+.payment-acceptance-tab,
+.balances-tab {
+    position: relative;
+}
+
+.issuing-dropdown,
+.payouts-dropdown,
+.beneficiaries-dropdown,
+.payment-dropdown,
+.balances-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #444;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    padding: 10px 0;
+    min-width: 200px;
+    display: none; /* Hidden by default */
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.issuing-tab:hover .issuing-dropdown,
+.payouts-tab:hover .payouts-dropdown,
+.beneficiaries-tab:hover .beneficiaries-dropdown,
+.payment-acceptance-tab:hover .payment-dropdown,
+.balances-tab:hover .balances-dropdown {
+    display: block; /* Show on hover */
+    opacity: 1;
+}
+
+.dropdown-item {
+    display: block;
+    color: white;
+    text-decoration: none;
+    margin-bottom: 8px;
+    padding: 5px 15px;
+    font-size: 14px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.dropdown-item:hover {
+    color: #61dafb;
+    background-color: #555;
+    border-radius: 3px;
+}
+
+/* Adjust dropdown styling for both Payouts and Issuing to be identical */
+.payouts-dropdown .dropdown-item,
+.issuing-dropdown .dropdown-item,
+.beneficiaries-dropdown .dropdown-item,
+.payment-dropdown .dropdown-item,
+.balances-dropdown .dropdown-item {
+    color: white; /* Consistent white text */
+    background-color: transparent; /* Transparent background initially */
+}
+
+.payouts-dropdown .dropdown-item:hover,
+.issuing-dropdown .dropdown-item:hover,
+.beneficiaries-dropdown .dropdown-item:hover,
+.payment-dropdown .dropdown-item:hover,
+.balances-dropdown .dropdown-item:hover {
+    background-color: #555;
+    color: #61dafb;
+    border-radius: 3px;
+}
+
+.switch-to-platform-btn {
+    margin-left: auto;
+    background-color: black;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.switch-to-platform-btn:hover {
+    background-color: white;
+    color: black;
+    border: 1px solid black;
+}
+

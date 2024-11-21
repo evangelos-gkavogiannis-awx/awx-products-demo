@@ -1,0 +1,74 @@
+.platform-page {
+    padding: 20px;
+}
+
+.platform-tabs {
+    display: flex;
+    gap: 15px;
+}
+
+.platform-tab {
+    background-color: #010202;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.platform-tab:hover {
+    background-color: #0056b3;
+}
+
+/* Dropdown styling */
+.platform-tab-dropdown {
+    position: relative;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    min-width: 150px;
+    padding: 5px 0;
+    border-radius: 5px;
+}
+
+.platform-tab-dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown-content button {
+    background-color: white;
+    color: black;
+    border: none;
+    padding: 10px;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+}
+
+.dropdown-content button:hover {
+    background-color: #f1f1f1;
+}
+
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px; /* Define header height */
+    background-color: #fff;
+    border-bottom: 1px solid #ddd;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.main-content {
+    margin-top: 40px; /* Push main content below the fixed header */
+    padding: 20px;
+}

@@ -1,0 +1,40 @@
+.platform-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .tabs {
+    display: flex;
+    gap: 15px;
+  }
+  
+  .tabs button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .tabs button:hover {
+    background-color: #0056b3;
+  }
+  
+  .switch-button {
+    background-color: black;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .switch-button:hover {
+    background-color: #333;
+  }
+  
