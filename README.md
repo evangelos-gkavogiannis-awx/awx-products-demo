@@ -1,6 +1,8 @@
 Creating a demo to visualize and showcase each of Airwallex's products.
 
-Work in progress.
+Work in progress :)
+
+---------------------------
 
 Backend:
 navigate to `backend` folder and run `npm install` and `node server.js`
