@@ -43,6 +43,8 @@ export const fetchGlobalAccounts = async () => {
     }
 
     try {
+        console.log(token)
+        console.log(config.onBehalfOfAccountId)
         const response = await axios.get(`${AIRWALLEX_API_URL}api/v1/global_accounts`, {
             headers: getHeaders(),
         });
@@ -165,6 +167,28 @@ export const createCardholder = async (data) => {
         return response.data;
     } catch (error) {
         console.error('Error creating cardholder:', error);
+        throw error;
+    }
+};
+
+// Function to create a payment intent via the server
+export const createPaymentIntent = async (data) => {
+    try {
+        const response = await axios.post(`${AIRWALLEX_PROXY_API}/payments/intent/create`, data);
+        return response.data; // Return the response data
+    } catch (error) {
+        console.error('Error creating payment intent:', error.message);
+        throw error;
+    }
+};
+
+// Function to confirm a payment intent via the server
+export const confirmPaymentIntent = async (paymentIntentId, data) => {
+    try {
+        const response = await axios.post(`${AIRWALLEX_PROXY_API}/payments/intent/${paymentIntentId}/confirm`, data);
+        return response.data; // Return the response data
+    } catch (error) {
+        console.error('Error confirming payment intent:', error.message);
         throw error;
     }
 };
@@ -446,23 +470,6 @@ export const listBatchItems = async (batchId) => {
         return response.data;
     } catch (error) {
         console.error('Error fetching beneficiary details:', error);
-        throw error;
-    }
-};
-
-// Login and retrieve token for payment linked
-const login_for_payment_links = async () => {
-    try {
-        const response = await axios.post(`${AIRWALLEX_API_URL}api/v1/authentication/login`, '', {
-            headers: {
-                'x-client-id': "3G_l_uCGQIq7buiWEphZhw",
-                'x-api-key': "f2aca178f274d21ccca76807a9892fcada33996884f10404a46a760ba1ec22fd32c28f859a47c0d23b7f1d636da84f52",
-            },
-        });
-        token_payment_link = response.data.token;
-        return token_payment_link;
-    } catch (error) {
-        console.error('Error logging in:', error);
         throw error;
     }
 };

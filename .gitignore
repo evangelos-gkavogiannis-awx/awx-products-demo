@@ -26,3 +26,6 @@ package-lock.json
 # environment variables
 .env
 .env.* # This includes files like .env.local, .env.production, etc.
+
+node_modules/
+

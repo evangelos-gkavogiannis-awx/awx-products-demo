@@ -17,10 +17,14 @@ dotenv.config(); // Load environment variables from .env file
 
 let token = null //cache the token
 const AIRWALLEX_API_URL = 'https://api-demo.airwallex.com/';
-const CLIENT_ID_PAYMENT_LINK = 'jDsFAvk3T0u9wIxQ02ZMBA';
-const API_SECRET_PAYMENT_LINK = '601c98034375db871d7812e8817c92ad6ca6a7d1ba2f850f529ff46301b9f00ee307ad7c099c45487e9d095385560cd0';
+const CLIENT_ID_PAYMENT_LINK = ''; // restricted key for payment links
+const API_SECRET_PAYMENT_LINK = '';
+
+const CLIENT_ID_PAYMENT_METHOD = ''; //key from an account with Payment Acceptance configured 
+const API_SECRET_PAYMENT_METHOD = '';
 
 let token_payment_link = null;
+let token_payment_method = null;
 
 
 // Use CORS to allow requests from the frontend
@@ -155,6 +159,32 @@ const getTokenPaymentLink = async () => {
     }
 };
 
+// Middleware to fetch and cache the token for payment links
+const getTokenPaymentMethod = async () => {
+    if (token_payment_method) {
+        return token_payment_method;
+    }
+
+    try {
+        const response = await axios.post(
+            `${process.env.AIRWALLEX_API_URL}/api/v1/authentication/login`,
+            '',
+            {
+                headers: {
+                    'x-client-id': CLIENT_ID_PAYMENT_METHOD,
+                    'x-api-key': API_SECRET_PAYMENT_METHOD,
+                },
+            }
+        );
+        console.log('Token Response:', response.data); // Log the full response for debugging
+        token_payment_method = response.data.token;
+        return token_payment_method;
+    } catch (error) {
+        console.error('Error generating token:', error.response?.data || error.message);
+        throw new Error('Failed to generate token');
+    }
+};
+
 // Middleware to attach token
 const authenticate = async (req, res, next) => {
     try {
@@ -178,6 +208,19 @@ const authenticate_payment_link = async (req, res, next) => {
         res.status(500).json({ error: 'Authentication failed' });
     }
 };
+
+// Middleware to attach token for payment methods
+const authenticate_payment_method = async (req, res, next) => {
+    try {
+        req.token_payment_method = await getTokenPaymentMethod();
+        console.log('Payment method token fetched successfully:', req.token_payment_method); // Debug log
+        next();
+    } catch (error) {
+        console.error('Error in authenticate_payment_method middleware:', error.message);
+        res.status(500).json({ error: 'Authentication failed' });
+    }
+};
+
 
 
 // Fetch cardholders
@@ -433,6 +476,48 @@ app.post('/api/payment_links/create', authenticate_payment_link, async (req, res
     } catch (error) {
         console.error('Error creating payment link:', error.response?.data || error.message);
         res.status(error.response?.status || 500).send(error.response?.data || 'Error creating payment link');
+    }
+});
+
+// Route to create a payment intent
+app.post('/payments/intent/create', authenticate_payment_method, async (req, res) => {
+    try {
+        console.log("wechat", token_payment_method)
+        const response = await axios.post(
+            `${AIRWALLEX_API_URL}/api/v1/pa/payment_intents/create`,
+            req.body,
+            {
+                headers: {
+                    Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJ0eXBlIjoiY2xpZW50IiwiZGMiOiJISyIsImRhdGFfY2VudGVyX3JlZ2lvbiI6IkhLIiwiaXNzZGMiOiJVUyIsImp0aSI6IjhjODc4M2U4LWM5NjgtNGE1OS1hNDI5LWUzNmMzNWMxMTAzOSIsInN1YiI6ImRjNmZlNWZlLWUwODYtNDA4YS1iYjZlLWU4OTYxMjk4NTk4NyIsImlhdCI6MTczMjIwOTQwOSwiZXhwIjoxNzMyMjExMjA5LCJhY2NvdW50X2lkIjoiNWVmYjYzMDAtNmFiNC00OGI5LWE5NWUtNzY5NmUxNzJlYjZmIiwiYXBpX3ZlcnNpb24iOiIyMDI0LTA5LTI3IiwicGVybWlzc2lvbnMiOlsicjphd3g6KjoqIiwidzphd3g6KjoqIl19.uwxx8rstdTPEIZBDzdnixr2PpEkNl-T8cFpd4ct2nqY',
+                    'Content-Type': 'application/json',
+                },
+            }
+        );
+        res.json(response.data);
+    } catch (error) {
+        console.error('Error creating payment intent:', error.response?.data || error.message);
+        res.status(error.response?.status || 500).send('Error creating payment intent');
+    }
+});
+
+// Route to confirm a payment intent
+app.post('/payments/intent/:id/confirm', authenticate_payment_method, async (req, res) => {
+    try {
+        const { id } = req.params;
+        const response = await axios.post(
+            `${AIRWALLEX_API_URL}/api/v1/pa/payment_intents/${id}/confirm`,
+            req.body,
+            {
+                headers: {
+                    Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJ0eXBlIjoiY2xpZW50IiwiZGMiOiJISyIsImRhdGFfY2VudGVyX3JlZ2lvbiI6IkhLIiwiaXNzZGMiOiJVUyIsImp0aSI6IjhjODc4M2U4LWM5NjgtNGE1OS1hNDI5LWUzNmMzNWMxMTAzOSIsInN1YiI6ImRjNmZlNWZlLWUwODYtNDA4YS1iYjZlLWU4OTYxMjk4NTk4NyIsImlhdCI6MTczMjIwOTQwOSwiZXhwIjoxNzMyMjExMjA5LCJhY2NvdW50X2lkIjoiNWVmYjYzMDAtNmFiNC00OGI5LWE5NWUtNzY5NmUxNzJlYjZmIiwiYXBpX3ZlcnNpb24iOiIyMDI0LTA5LTI3IiwicGVybWlzc2lvbnMiOlsicjphd3g6KjoqIiwidzphd3g6KjoqIl19.uwxx8rstdTPEIZBDzdnixr2PpEkNl-T8cFpd4ct2nqY`,
+                    'Content-Type': 'application/json',
+                },
+            }
+        );
+        res.json(response.data);
+    } catch (error) {
+        console.error('Error confirming payment intent:', error.response?.data || error.message);
+        res.status(error.response?.status || 500).send('Error confirming payment intent');
     }
 });
 

@@ -38,6 +38,7 @@ import CreateCardholder from './pages/CreateCardholder';
 import ListPayouts from './pages/ListPayouts';
 import ChargeConnectedAccount from './pages/ChargeConnectedAccount';
 import ConnectedAccountTransfer from './pages/ConnectedAccountTransfer';
+import WeChatPay from './pages/WeChatPay';
 
 
 
@@ -97,6 +98,7 @@ function App() {
           <Route path="/list-payouts" element={<ListPayouts />} />
           <Route path="/charge-connected-account" element={<ChargeConnectedAccount />} />
           <Route path="/connected-account-transfer" element={<ConnectedAccountTransfer />} />
+          <Route path="/wechat-pay" element={<WeChatPay />} />
 
 
           {/* Platform Page */}
