@@ -43,6 +43,7 @@ const transporter = nodemailer.createTransport({
     auth: {
         user: "", // Your email address
         pass: "",   // Your email password 2FA 
+
     },
 });
 
