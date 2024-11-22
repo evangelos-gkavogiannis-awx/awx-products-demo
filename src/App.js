@@ -41,16 +41,34 @@ import ConnectedAccountTransfer from './pages/ConnectedAccountTransfer';
 import WeChatPay from './pages/WeChatPay';
 
 
-
-
-
-
-
-
 function App() {
 
   const [isPlatformView, setIsPlatformView] = useState(false); // State to toggle between headers
+  const [showHeader, setShowHeader] = useState(false); // Whether to display the header
+  const [selectedTabs, setSelectedTabs] = useState([]); // Tabs selected by the user
 
+  // Tabs configuration
+  const availableTabs = [
+    { id: 'global-accounts', label: 'Global Accounts' },
+    { id: 'wallet', label: 'Wallet' },
+    { id: 'linked-accounts', label: 'Linked Accounts' },
+    { id: 'beneficiaries', label: 'Beneficiaries' },
+    { id: 'payouts', label: 'Payouts' },
+    { id: 'issuing', label: 'Issuing' },
+    { id: 'finance', label: 'Finance' },
+    { id: 'payment-acceptance', label: 'Payment Acceptance' },
+    { id: 'payment-methods', label: 'Payment Methods' },
+  ];
+
+  const handleFeatureSelection = (tabId) => {
+    setSelectedTabs((prev) =>
+      prev.includes(tabId) ? prev.filter((id) => id !== tabId) : [...prev, tabId]
+    );
+  };
+
+  const handleSubmit = () => {
+    setShowHeader(true); // Display the header after submitting
+  };
 
 
   useEffect(() => {
@@ -60,16 +78,28 @@ function App() {
   return (
     <Router>
       <div className="main-content">
-        {/* Conditionally render the appropriate header */}
+
         {isPlatformView ? (
           <PlatformHeader setIsPlatformView={setIsPlatformView} />
         ) : (
           <Header setIsPlatformView={setIsPlatformView} />
         )}
 
+        {showHeader && <Header selectedTabs={selectedTabs} />}
+
         <Routes>
           {/* Main Routes */}
-          <Route path="/" element={<Home />} />
+          <Route
+            path="/"
+            element={
+              <Home
+                availableTabs={availableTabs}
+                selectedTabs={selectedTabs}
+                onFeatureSelect={handleFeatureSelection}
+                onSubmit={handleSubmit}
+              />
+            }
+          />
           <Route path="/global-accounts" element={<GlobalAccounts />} />
           <Route path="/create-global-account" element={<CreateGlobalAccount />} />
           <Route path="/global-account-creation" element={<GlobalAccountCreationForm />} />
