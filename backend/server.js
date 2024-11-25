@@ -240,6 +240,42 @@ app.get('/api/v1/issuing/cardholders', authenticate, async (req, res) => {
     }
 });
 
+// Create pan token 
+
+app.post('/api/v1/issuing/pantokens/create', authenticate, async (req, res) => {
+    try {
+        const { card_id } = req.body; // Extract card_id from the request body
+        console.log(card_id)
+        if (!card_id) {
+            return res.status(400).json({ error: 'card_id is required' });
+        }
+
+        // Construct the request payload
+        const requestBody = {
+            card_id: card_id, // Explicitly set the key and value
+        };
+
+        const response = await axios.post(
+            `${process.env.AIRWALLEX_API_URL}/api/v1/issuing/pantokens/create`,
+            requestBody, // Pass the card_id in the POST body
+            {
+                headers: {
+                    Authorization: `Bearer ${req.token}`,
+                    'x-on-behalf-of': onBehalfOfAccountId, // Replace with your environment variable
+                    'Content-Type': 'application/json',
+                },
+            }
+        );
+
+        console.log('Airwallex API Response Status:', response.status);
+        res.json(response.data); // Send back the response from Airwallex
+    } catch (error) {
+        console.error('Error creating PAN token:', error.message);
+        res.status(500).json({ error: 'Failed to create PAN token' });
+    }
+});
+
+
 app.post('/api/issuing/cards/create', authenticate, async (req, res) => {
     try {
         const response = await axios.post(
