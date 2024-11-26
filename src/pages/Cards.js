@@ -29,7 +29,23 @@ function Cards() {
             const hash = {
                 token: response.token,
                 rules: {
-                    '.details': { fontSize: '18px', color: '#333' },
+                    '.details': {
+                        backgroundColor: '#2a2a2a',
+                        color: 'white',
+                        borderRadius: '20px',
+                        fontFamily: 'Arial',
+                    },
+                    '.details__row': {
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        padding: '20px',
+                    },
+                    '.details__label': {
+                        width: '100px',
+                        fontWeight: 'bold',
+                    },
+                    '.details__content': { display: 'flex' },
+                    '.details__button svg': { color: 'white' },
                 },
                 langKey: 'en',
             };
@@ -51,6 +67,17 @@ function Cards() {
     return (
         <div className="container mx-auto p-6 max-w-4xl">
             <h1 className="text-3xl font-bold mb-6 text-gray-800 text-center">Cards</h1>
+            <p className="text-center text-gray-600 mb-6">
+                You can retrieve sensitive card details like card numbers and expiry dates even if you are not PCI compliant by implementing the secure iframe.
+                <a
+                    href="https://www.airwallex.com/docs/issuing__retrieve-sensitive-card-details__secure-iframes"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-500 hover:underline"
+                >
+                    Learn more
+                </a>
+            </p>
 
             {error && (
                 <div className="mb-4 text-red-600 text-center">
