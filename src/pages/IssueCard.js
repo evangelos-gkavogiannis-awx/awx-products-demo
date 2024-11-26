@@ -5,7 +5,7 @@ import './IssueCard.css';
 import cardImage from '../assets/visa-airwallex-card.jpg'; // Assuming you've saved the card image locally
 import airwallexLogo from '../assets/airwallex-logo.png';
 import visaLogo from '../assets/visa-logo.png';
-import dextLogo from '../assets/dext-logo.png'
+import awxLogo from '../assets/airwallex.png'
 
 
 function IssueCard() {
@@ -109,7 +109,7 @@ function IssueCard() {
         try {
             const response = await issueCard(requestData);
             setCardDetails({
-                companyName: 'Dext', // Static company name placeholder
+                companyName: 'Awx', // Static company name placeholder
                 nameOnCard: response.name_on_card,
             });
             setShowOverlay(true);
@@ -262,9 +262,9 @@ function IssueCard() {
                     <div className="credit-card">
                         <div className="top-section">
                             <img
-                                src={dextLogo} // Replace `dextLogo` with the actual import for the Dext logo image
-                                alt="Dext Logo"
-                                className="dext-logo"
+                                src={awxLogo} // Replace `awxLogo`
+                                alt="Awx Logo"
+                                className="awx-logo"
                             />
                             <img
                                 src={airwallexLogo} // Replace `airwallexLogo` with the actual import for the Airwallex logo image

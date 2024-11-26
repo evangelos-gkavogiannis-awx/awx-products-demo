@@ -35,6 +35,7 @@ import PlatformPage from './pages/PlatformPage';
 import PlatformHeader from "./pages/PlatformHeader";
 import ActivateAccount from "./pages/ActivateAccount";
 import CreateCardholder from './pages/CreateCardholder';
+import ViewCardholders from './pages/ViewCardholders';
 import ListPayouts from './pages/ListPayouts';
 import ChargeConnectedAccount from './pages/ChargeConnectedAccount';
 import ConnectedAccountTransfer from './pages/ConnectedAccountTransfer';
@@ -125,6 +126,7 @@ function App() {
           <Route path="/create-batch-payout" element={<CreateBatchPayout />} />
           <Route path="/activate-account" element={<ActivateAccount />} />
           <Route path="/create-cardholder" element={<CreateCardholder />} />
+          <Route path="/view-cardholders" element={<ViewCardholders />} />
           <Route path="/list-payouts" element={<ListPayouts />} />
           <Route path="/charge-connected-account" element={<ChargeConnectedAccount />} />
           <Route path="/connected-account-transfer" element={<ConnectedAccountTransfer />} />

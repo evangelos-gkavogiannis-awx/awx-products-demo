@@ -55,6 +55,7 @@ export const fetchGlobalAccounts = async () => {
     }
 };
 
+
 // Fetch account details by ID
 export const fetchAccountDetails = async (accountId) => {
     await login(); // Ensure token is obtained before making the call
@@ -121,6 +122,20 @@ export const fetchCardholders = async () => {
     } catch (error) {
         console.error('Error fetching cardholders:', error.message);
         throw error;
+    }
+};
+
+//create pan token for secure iframe
+export const createPanToken = async (cardId) => {
+    try {
+        console.log(AIRWALLEX_PROXY_API)
+        const response = await axios.post(`${AIRWALLEX_PROXY_API}/api/v1/issuing/pantokens/create`, {
+            card_id: cardId, // Send card_id in the request body
+        });
+        return response.data; // Return the response data directly
+    } catch (error) {
+        console.error('Error creating PAN token:', error.message);
+        throw error; // Throw the error to handle it in the calling component
     }
 };
 

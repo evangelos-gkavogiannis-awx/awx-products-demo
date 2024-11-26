@@ -127,8 +127,8 @@
     background: none;
   }
 
-  .dext-logo {
-    width: 60px; /* Adjust size for the Dext logo */
+  .awx-logo {
+    width: 60px; /* Adjust size for the awx logo */
     height: auto;
     object-fit: contain;
   }
