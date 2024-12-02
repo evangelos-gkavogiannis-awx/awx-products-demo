@@ -517,7 +517,7 @@ app.post('/api/payment_links/create', authenticate_payment_link, async (req, res
 });
 
 // Route to create a payment intent
-app.post('/payments/intent/create', authenticate_payment_method, async (req, res) => {
+app.post('/payments/intent/create', authenticate, async (req, res) => {
     try {
         console.log("wechat", token_payment_method)
         const response = await axios.post(
@@ -525,7 +525,7 @@ app.post('/payments/intent/create', authenticate_payment_method, async (req, res
             req.body,
             {
                 headers: {
-                    Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJ0eXBlIjoiY2xpZW50IiwiZGMiOiJISyIsImRhdGFfY2VudGVyX3JlZ2lvbiI6IkhLIiwiaXNzZGMiOiJVUyIsImp0aSI6IjhjODc4M2U4LWM5NjgtNGE1OS1hNDI5LWUzNmMzNWMxMTAzOSIsInN1YiI6ImRjNmZlNWZlLWUwODYtNDA4YS1iYjZlLWU4OTYxMjk4NTk4NyIsImlhdCI6MTczMjIwOTQwOSwiZXhwIjoxNzMyMjExMjA5LCJhY2NvdW50X2lkIjoiNWVmYjYzMDAtNmFiNC00OGI5LWE5NWUtNzY5NmUxNzJlYjZmIiwiYXBpX3ZlcnNpb24iOiIyMDI0LTA5LTI3IiwicGVybWlzc2lvbnMiOlsicjphd3g6KjoqIiwidzphd3g6KjoqIl19.uwxx8rstdTPEIZBDzdnixr2PpEkNl-T8cFpd4ct2nqY',
+                    Authorization: `Bearer ${req.token}`,
                     'Content-Type': 'application/json',
                 },
             }
@@ -538,7 +538,7 @@ app.post('/payments/intent/create', authenticate_payment_method, async (req, res
 });
 
 // Route to confirm a payment intent
-app.post('/payments/intent/:id/confirm', authenticate_payment_method, async (req, res) => {
+app.post('/payments/intent/:id/confirm', authenticate, async (req, res) => {
     try {
         const { id } = req.params;
         const response = await axios.post(
@@ -546,7 +546,7 @@ app.post('/payments/intent/:id/confirm', authenticate_payment_method, async (req
             req.body,
             {
                 headers: {
-                    Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJ0eXBlIjoiY2xpZW50IiwiZGMiOiJISyIsImRhdGFfY2VudGVyX3JlZ2lvbiI6IkhLIiwiaXNzZGMiOiJVUyIsImp0aSI6IjhjODc4M2U4LWM5NjgtNGE1OS1hNDI5LWUzNmMzNWMxMTAzOSIsInN1YiI6ImRjNmZlNWZlLWUwODYtNDA4YS1iYjZlLWU4OTYxMjk4NTk4NyIsImlhdCI6MTczMjIwOTQwOSwiZXhwIjoxNzMyMjExMjA5LCJhY2NvdW50X2lkIjoiNWVmYjYzMDAtNmFiNC00OGI5LWE5NWUtNzY5NmUxNzJlYjZmIiwiYXBpX3ZlcnNpb24iOiIyMDI0LTA5LTI3IiwicGVybWlzc2lvbnMiOlsicjphd3g6KjoqIiwidzphd3g6KjoqIl19.uwxx8rstdTPEIZBDzdnixr2PpEkNl-T8cFpd4ct2nqY`,
+                    Authorization: `Bearer ${req.token}`,
                     'Content-Type': 'application/json',
                 },
             }

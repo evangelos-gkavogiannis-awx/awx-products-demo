@@ -6,6 +6,7 @@
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "airwallex-payment-elements": "^1.62.0",
     "axios": "^1.7.7",
     "postcss-cli": "^11.0.0",
     "qrcode": "^1.5.4",

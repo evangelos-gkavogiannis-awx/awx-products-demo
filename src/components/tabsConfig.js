@@ -76,7 +76,10 @@ const tabLinks = {
       path: '/payment-methods',
       label: 'Payment Methods',
       apiLink: 'https://www.airwallex.com/docs/payments__payment-methods-overview',
-      dropdown: [{ path: '/wechat-pay', label: 'WeChat Pay' }],
+      dropdown: [
+        { path: '/wechat-pay', label: 'WeChat Pay' },
+        { path: '/hosted-payment-page', label: 'Airwallex HPP' }
+      ],
     },
   };
   

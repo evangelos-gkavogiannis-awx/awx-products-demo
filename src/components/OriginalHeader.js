@@ -146,7 +146,9 @@ function Header({ selectedTabs }) {
                 {isPaymentMethodHovered && (
                     <div className="payment-dropdown">
                         <Link to="/wechat-pay" className="dropdown-item">WeChat Pay</Link>
+                        <Link to="/hosted-payment-page" className="dropdown-item">Airwallex HPP</Link>
                     </div>
+                    
                 )}
             </div>
 
