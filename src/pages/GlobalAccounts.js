@@ -2,10 +2,17 @@ import React, { useEffect, useState } from 'react';
 import { fetchGlobalAccounts, fetchAccountDetails } from '../apiService';
 import { useNavigate } from 'react-router-dom';
 
+const countryMapping = {
+    AU: { name: 'Australia', flag: '🇦🇺' },
+    DK: { name: 'Denmark', flag: '🇩🇰' },
+    US: { name: 'United States of America', flag: '🇺🇸' },
+    SG: { name: 'Singapore', flag: '🇸🇬' },
+    HK: { name: 'Hong Kong SAR', flag: '🇭🇰' },
+};
+
 function GlobalAccounts() {
     const [accounts, setAccounts] = useState([]);
-    const [selectedAccount, setSelectedAccount] = useState(null);
-    const [accountDetails, setAccountDetails] = useState(null);
+    const [selectedRowOptions, setSelectedRowOptions] = useState(null);
     const [error, setError] = useState(null);
 
     const navigate = useNavigate();
@@ -16,168 +23,148 @@ function GlobalAccounts() {
                 const data = await fetchGlobalAccounts();
                 setAccounts(data);
             } catch (err) {
-                setError("Failed to fetch global accounts data.");
+                setError('Failed to fetch global accounts data.');
             }
         };
 
         loadAccounts();
     }, []);
 
-    const handleSelectAccount = (account) => {
-        setSelectedAccount(selectedAccount === account ? null : account);
-        setAccountDetails(null);
+    const toggleRowOptions = (accountId) => {
+        setSelectedRowOptions(selectedRowOptions === accountId ? null : accountId);
     };
 
-    const handleGetAccountDetails = async () => {
-        if (selectedAccount) {
-            try {
-                const details = await fetchAccountDetails(selectedAccount.id);
-                setAccountDetails(details);
-            } catch (error) {
-                console.error("Error fetching account details:", error);
-                setError("Failed to fetch account details.");
-            }
+    const handleOptionClick = (action, account) => {
+        setSelectedRowOptions(null);
+        switch (action) {
+            case 'details':
+                navigate(`/global-account-details/${account.id}`);
+                break;
+            case 'close':
+                console.log('Closing account:', account.id);
+                break;
+            case 'update':
+                navigate('/update-global-account', {
+                    state: {
+                        accountNumber: account.account_number,
+                        accountId: account.id,
+                        currentNickname: account.nick_name || '',
+                    },
+                });
+                break;
+            case 'topUp':
+                navigate('/top-up-global-account-form', { state: { account } });
+                break;
+            default:
+                break;
         }
     };
 
-    const handleCreateAccount = () => {
-        navigate("/create-global-account");
-    };
-
-    const handleUpdateClick = (account) => {
-        navigate('/update-global-account', {
-            state: {
-                accountNumber: account.account_number,
-                accountId: account.id,
-                currentNickname: account.nick_name || '',
-            },
-        });
-    };
-
-    const handleTopUpClick = () => {
-        navigate('/top-up-global-account-form', { state: { account: selectedAccount } });
-    };
-
     return (
-        <div className="container mx-auto p-6 bg-gray-50 min-h-screen">
-            <h1 className="text-3xl font-bold mb-6 text-gray-800">Global Accounts</h1>
+        <div className="container mx-auto p-4 bg-gray-50 min-h-screen" style={{ width: '100%' }}>
+            <h1 className="text-2xl font-bold mb-4 text-gray-800">Global Accounts</h1>
 
-            <p className="text-gray-600 mb-4">
-                Want to learn more about Global Accounts and how they differ from your Airwallex Wallet?{' '}
-                <a
-                    href="https://help.airwallex.com/hc/en-gb/articles/900001756246-What-is-a-Global-Account-and-how-is-it-different-from-my-Airwallex-Wallet#:~:text=Global%20Accounts%20will%20collect%20the,Global%20Accounts%20across%20various%20geographies"
-                    className="text-blue-500 hover:underline"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    Check out our detailed guide here.
-                </a>
-            </p>
-
-            {/* Create Global Account Button */}
-            <div className="flex justify-center">
-                <button
-                    className="bg-blue-500 text-white px-4 py-2 rounded shadow hover:bg-blue-600 mb-6"
-                    onClick={handleCreateAccount}
-                >
-                    Create Global Account
-                </button>
-            </div>
-
-
-            {/* Error Message */}
             {error && <p className="text-red-500 mb-4">{error}</p>}
 
-            {/* Responsive Table Container */}
             <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-                <table className="w-full text-sm text-left text-gray-500">
-                    <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+                <table className="w-full min-w-[1500px] text-sm text-left text-gray-500">
+                    <thead className="text-xs text-gray-700 uppercase bg-gray-100">
                         <tr>
-                            <th className="px-6 py-3">Select</th>
-                            <th className="px-6 py-3">Account Name</th>
-                            <th className="px-6 py-3">Account Number</th>
-
-                            <th className="px-6 py-3">Supported Features</th>
-                            <th className="px-6 py-3">Currency</th>
+                            <th className="px-2 py-1">Bank Location</th>
+                            <th className="px-2 py-1">Supported Currencies</th>
+                            <th className="px-1 py-1 w-1/5">Account Number</th>
+                            <th className="px-1 py-1 w-1/6">Status</th>
+                            <th className="px-1 py-1 w-1/10">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         {accounts.map((account) => (
-                            <tr
-                                key={account.id}
-                                className="odd:bg-white even:bg-gray-50 border-b"
-                            >
-                                <td className="px-6 py-4">
-                                    <input
-                                        type="radio"
-                                        name="accountSelect"
-                                        className="form-radio text-blue-500"
-                                        checked={selectedAccount === account}
-                                        onChange={() => handleSelectAccount(account)}
-                                    />
+                            <tr key={account.id} className="odd:bg-white even:bg-gray-50 border-b">
+                                {/* Bank Location */}
+                                <td className="px-2 py-1 flex items-center gap-2">
+                                    <span>{countryMapping[account.country_code]?.flag}</span>
+                                    <span className="text-gray-900 font-medium">
+                                        {countryMapping[account.country_code]?.name}
+                                    </span>
                                 </td>
-                                <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                    {account.account_name}
-                                </td>
-                                <td className="px-6 py-4">{account.account_number}</td>
 
-                                <td className="px-6 py-4">
-                                    {account.required_features
-                                        .map((feature) => feature.transfer_method)
-                                        .join(', ')}
+                                {/* Supported Currencies (wrapped into max two lines) */}
+                                <td className="px-2 py-1">
+                                    <div className="text-sm text-gray-700 space-y-1">
+                                        {account.supported_features
+                                            .map((feature) => feature.currency)
+                                            .reduce((acc, curr, idx) => {
+                                                const chunkIndex = Math.floor(idx / Math.ceil(account.supported_features.length / 2)); // Max 2 lines
+                                                if (!acc[chunkIndex]) acc[chunkIndex] = [];
+                                                acc[chunkIndex].push(curr);
+                                                return acc;
+                                            }, [])
+                                            .slice(0, 2) // Limit to 2 lines
+                                            .map((line, index) => (
+                                                <div key={index} className="truncate">
+                                                    {line.join(', ')}
+                                                </div>
+                                            ))}
+                                    </div>
                                 </td>
-                                <td className="px-6 py-4">
-                                    {account.required_features
-                                        .map((feature) => feature.currency)
-                                        .join(', ')}
+
+                                {/* Account Number */}
+                                <td className="px-1 py-1">{account.account_number || 'Available Soon'}</td>
+
+                                {/* Status */}
+                                <td className="px-1 py-1">
+                                    <span
+                                        className={`px-2 py-1 rounded text-white font-semibold ${account.status === 'Active' ? 'bg-green-500' : 'bg-yellow-500'
+                                            }`}
+                                    >
+                                        {account.status}
+                                    </span>
+                                </td>
+
+                                {/* Actions (Three Dots Dropdown) */}
+                                <td className="px-2 py-1 relative">
+                                    <button
+                                        onClick={() => toggleRowOptions(account.id)}
+                                        className="text-gray-500 hover:text-gray-800"
+                                    >
+                                        &#x22EE;
+                                    </button>
+                                    {selectedRowOptions === account.id && (
+                                        <div className="absolute top-8 right-0 bg-white border rounded shadow-lg z-10 w-48">
+                                            <button
+                                                className="block w-full text-left px-2 py-1 hover:bg-gray-100 text-gray-700"
+                                                onClick={() => handleOptionClick('details', account)}
+                                            >
+                                                Get Account Details
+                                            </button>
+                                            <button
+                                                className="block w-full text-left px-2 py-1 hover:bg-gray-100 text-gray-700"
+                                                onClick={() => handleOptionClick('close', account)}
+                                            >
+                                                Close Account
+                                            </button>
+                                            <button
+                                                className="block w-full text-left px-2 py-1 hover:bg-gray-100 text-gray-700"
+                                                onClick={() => handleOptionClick('update', account)}
+                                            >
+                                                Update Account
+                                            </button>
+                                            <button
+                                                className="block w-full text-left px-2 py-1 hover:bg-gray-100 text-gray-700"
+                                                onClick={() => handleOptionClick('topUp', account)}
+                                            >
+                                                Top Up Account
+                                            </button>
+                                        </div>
+                                    )}
                                 </td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
             </div>
-
-            {/* Action Buttons for Selected Account */}
-            {selectedAccount && (
-                <div className="mt-6 flex gap-4 justify-center">
-                    <button
-                        className="bg-blue-500 text-white px-4 py-2 rounded shadow hover:bg-blue-600"
-                        onClick={handleGetAccountDetails}
-                    >
-                        Get Account Details
-                    </button>
-                    <button
-                        className="bg-blue-500 text-white px-4 py-2 rounded shadow hover:bg-blue-600"
-                        onClick={() => console.log("Close Account")}
-                    >
-                        Close Account
-                    </button>
-                    <button
-                        className="bg-blue-500 text-white px-4 py-2 rounded shadow hover:bg-blue-600"
-                        onClick={() => handleUpdateClick(selectedAccount)}
-                    >
-                        Update Account
-                    </button>
-                    <button
-                        className="bg-blue-500 text-white px-4 py-2 rounded shadow hover:bg-blue-600"
-                        onClick={handleTopUpClick}
-                    >
-                        Top Up Account
-                    </button>
-                </div>
-            )}
-
-            {/* Account Details Section */}
-            {accountDetails && (
-                <div className="mt-6 bg-gray-100 p-4 rounded shadow">
-                    <h2 className="text-xl font-semibold mb-4">Account Details</h2>
-                    <pre className="text-sm text-gray-800">{JSON.stringify(accountDetails, null, 2)}</pre>
-                </div>
-            )}
         </div>
-
     );
-
 }
 
 export default GlobalAccounts;

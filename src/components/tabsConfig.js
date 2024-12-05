@@ -1,7 +1,7 @@
 // src/config/tabsConfig.js
 const tabLinks = {
     'global-accounts': {
-      path: '/global-accounts',
+      path: '/home-global-accounts',
       label: 'Global Accounts',
       apiLink: 'https://www.airwallex.com/docs/global-treasury__global-accounts',
       dropdown: null,

@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './Header.css';
+import Logo from '../assets/airwallex-logo.png'
 
 function Header({ selectedTabs }) {
     const navigate = useNavigate(); // Hook for programmatic navigation
@@ -14,7 +15,7 @@ function Header({ selectedTabs }) {
     const [isPaymentMethodHovered, setIsPaymentMethodHovered] = useState(false); // State for Balances hover
 
     const tabLinks = {
-        'global-accounts': { path: '/global-accounts', label: 'Global Accounts' },
+        'global-accounts': { path: '/home-global-accounts', label: 'Global Accounts' },
         wallet: { path: '/wallet', label: 'Wallet' },
         'linked-accounts': { path: '/linked-accounts', label: 'Linked Accounts' },
         beneficiaries: { path: '/beneficiaries', label: 'Beneficiaries' },
@@ -41,8 +42,8 @@ function Header({ selectedTabs }) {
     return (
         <div className="header">
             {/* Add the logo */}
-            <img src="/path-to-logo.png" alt="Logo" className="header-logo" />
-            <Link to="/global-accounts" className="nav-item">Global Accounts</Link>
+            <img src={Logo} alt="Logo" className="header-logo w-32 h-auto" />
+            <Link to="/home-global-accounts" className="nav-item">Global Accounts</Link>
 
             {selectedTabs.map((tabId) => (
                 <Link key={tabId} to={tabLinks[tabId].path} className="nav-item">

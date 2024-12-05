@@ -1,7 +1,6 @@
 // src/pages/GlobalAccountUpdateConfirmation.js
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import './GlobalAccountCreationConfirmation.css';
 
 function GlobalAccountUpdateConfirmation() {
   const { state } = useLocation();

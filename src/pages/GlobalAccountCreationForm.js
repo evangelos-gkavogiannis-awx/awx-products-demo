@@ -158,6 +158,8 @@ function GlobalAccountCreationForm() {
             </form>
         </div>
     );
+
+    
 }
 
 export default GlobalAccountCreationForm;

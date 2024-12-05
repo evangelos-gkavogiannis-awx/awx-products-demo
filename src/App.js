@@ -41,6 +41,7 @@ import ChargeConnectedAccount from './pages/ChargeConnectedAccount';
 import ConnectedAccountTransfer from './pages/ConnectedAccountTransfer';
 import WeChatPay from './pages/WeChatPay';
 import HostedPaymentPage from './pages/HostedPaymentPage';
+import HomeGlobalAccounts from './pages/HomeGlobalAccounts';
 
 
 function App() {
@@ -102,6 +103,7 @@ function App() {
               />
             }
           />
+          <Route path="/home-global-accounts" element={<HomeGlobalAccounts />} />
           <Route path="/global-accounts" element={<GlobalAccounts />} />
           <Route path="/create-global-account" element={<CreateGlobalAccount />} />
           <Route path="/global-account-creation" element={<GlobalAccountCreationForm />} />

@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import tabLinks from './tabsConfig'; // Import tab configuration
 import './Header.css';
+import Logo from '../assets/airwallex-logo.png'
+
 
 function Header({ selectedTabs = [] }) {
     const navigate = useNavigate(); // Hook for programmatic navigation
@@ -18,7 +20,7 @@ function Header({ selectedTabs = [] }) {
     return (
         <div className="header">
             {/* Add the logo */}
-            <img src="/path-to-logo.png" alt="Logo" className="header-logo" />
+            <img src={Logo} alt="Logo" className="header-logo w-32 h-auto" />
 
             {/* Render tabs dynamically based on orderedTabs */}
             {orderedTabs.map((tabId) => {
