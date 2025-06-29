@@ -30,7 +30,7 @@ const login = async () => {
 // Utility function to get headers for requests
 const getHeaders = () => ({
     Authorization: `Bearer ${token}`,
-    'x-on-behalf-of': config.onBehalfOfAccountId,
+    'x-on-behalf-of': "acct_eDWgRsz1PB2U4_TcLsKTzw",
     'Content-Type': 'application/json',
     'x-api-version': '2024-09-27'
 });

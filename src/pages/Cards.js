@@ -4,6 +4,7 @@ import { fetchCards, createPanToken } from '../apiService';
 function Cards() {
     const [cards, setCards] = useState([]);
     const [iframeSrc, setIframeSrc] = useState(null); // State to store iframe source
+    const [iframePinSrc, setIframePinSrc] = useState(null);
     const [error, setError] = useState(null); // State to handle errors
 
     useEffect(() => {
@@ -55,12 +56,54 @@ function Cards() {
 
             // Step 3: Embed iframe for card details
             const iframeUrl = `https://demo.airwallex.com/issuing/pci/v2/${cardId}/details#${hashURI}`;
+
+            console.log('Iframe URL:', iframeUrl);
+            console.log('Hash:', hash);
+            console.log('Token:', response.token);
+
             console.log("iframe url is : ", iframeUrl)
             setIframeSrc(iframeUrl);
             setError(null);
         } catch (err) {
             console.error('Error fetching sensitive data:', err);
             setError('Unable to fetch sensitive data. Please try again later.');
+        }
+    };
+
+    const handleGetPin = async (cardId) => {
+        try {
+            const response = await createPanToken(cardId);
+            const hash = {
+                token: response.token,
+                rules: {
+                    '.details': {
+                        backgroundColor: '#1a1a1a',
+                        color: 'white',
+                        borderRadius: '20px',
+                        fontFamily: 'Arial',
+                    },
+                    '.details__row': {
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        padding: '20px',
+                    },
+                },
+                langKey: 'en',
+            };
+
+            const hashURI = encodeURIComponent(JSON.stringify(hash));
+            const iframeUrl = `https://demo.airwallex.com/issuing/pci/v2/${cardId}/pin#${hashURI}`;
+
+            console.log('Iframe URL:', iframeUrl);
+            console.log('Hash:', hash);
+            console.log('Token:', response.token);
+
+            setIframePinSrc(iframeUrl);
+            setIframeSrc(null); // hide card details iframe
+            setError(null);
+        } catch (err) {
+            console.error('Error fetching PIN:', err);
+            setError('Unable to fetch card PIN. Please try again later.');
         }
     };
 
@@ -120,6 +163,13 @@ function Cards() {
                                 >
                                     Get Sensitive Data
                                 </button>
+
+                                <button
+                                    className="bg-purple-500 text-white px-3 py-1 rounded hover:bg-purple-600 w-full"
+                                    onClick={() => handleGetPin(card.card_id)}
+                                >
+                                    View PIN
+                                </button>
                             </td>
                         </tr>
                     ))}
@@ -132,6 +182,17 @@ function Cards() {
                     <iframe
                         src={iframeSrc}
                         title="Card Details"
+                        className="w-full h-96 border rounded-md"
+                    />
+                </div>
+            )}
+
+            {/* Display PIN iframe */}
+            {iframePinSrc && (
+                <div className="mt-6">
+                    <iframe
+                        src={iframePinSrc}
+                        title="Card PIN"
                         className="w-full h-96 border rounded-md"
                     />
                 </div>
