@@ -76,19 +76,19 @@ function Cards() {
             const hash = {
                 token: response.token,
                 rules: {
-                    '.details': {
+                    '.pin': {
                         backgroundColor: '#1a1a1a',
                         color: 'white',
-                        borderRadius: '20px',
+                        borderRadius: '12px',
                         fontFamily: 'Arial',
+                        padding: '20px'
                     },
-                    '.details__row': {
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        padding: '20px',
-                    },
-                },
-                langKey: 'en',
+                    '.pin__value': {
+                        fontSize: '24px',
+                        fontWeight: 'bold',
+                        letterSpacing: '4px'
+                    }
+                }
             };
 
             const hashURI = encodeURIComponent(JSON.stringify(hash));
